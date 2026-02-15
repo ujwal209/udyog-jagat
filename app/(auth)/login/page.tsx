@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { Suspense } from "react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { ShieldCheck, ChevronRight, AlertCircle, Lock, Mail } from "lucide-react"
@@ -32,15 +33,76 @@ function SubmitButton() {
   )
 }
 
-export default function LoginPage() {
+function LoginForm() {
   const searchParams = useSearchParams()
   const error = searchParams.get("error")
-  
-  const [mounted, setMounted] = React.useState(false)
-  React.useEffect(() => { setMounted(true) }, [])
 
-  if (!mounted) return null
+  return (
+    <div className="w-full max-w-[420px] space-y-8">
+      <div className="text-left space-y-2">
+        <h2 className="text-3xl font-bold tracking-tight text-slate-900">Welcome back</h2>
+        <p className="text-slate-500 font-medium text-sm">Please identify yourself to access the console.</p>
+      </div>
 
+      {error && (
+        <div className="p-4 rounded-xl bg-red-50 border border-red-100 flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
+          <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+          <div className="space-y-1">
+            <p className="text-xs font-bold text-red-600 uppercase tracking-wider">Access Denied</p>
+            <p className="text-sm font-medium text-red-600/80">
+              {error === "Profile not found" ? "Your account has no assigned administrative role." : error}
+            </p>
+          </div>
+        </div>
+      )}
+
+      <form action={loginAction} className="space-y-5">
+        <div className="space-y-2 group">
+          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 pl-1 group-focus-within:text-[#1C3FA4] transition-colors">Work Email</label>
+          <div className="relative">
+            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Input 
+              name="email" 
+              type="email" 
+              placeholder="name@company.com" 
+              className="h-12 pl-11 bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 focus:ring-1 focus:ring-[#1C3FA4] focus:border-[#1C3FA4] transition-all rounded-xl font-medium" 
+              required 
+            />
+          </div>
+        </div>
+
+        <div className="space-y-2 group">
+          <div className="flex justify-between items-center mb-1">
+            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 pl-1 group-focus-within:text-[#1C3FA4] transition-colors">Credential Key</label>
+            <Link href="/forgot-password" className="text-[10px] font-bold uppercase text-[#1C3FA4] hover:underline tracking-wider">Recover?</Link>
+          </div>
+          <div className="relative">
+            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Input 
+              name="password" 
+              type="password" 
+              placeholder="••••••••••••" 
+              className="h-12 pl-11 bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 focus:ring-1 focus:ring-[#1C3FA4] focus:border-[#1C3FA4] transition-all rounded-xl font-medium" 
+              required 
+            />
+          </div>
+        </div>
+
+        <div className="pt-2">
+          <SubmitButton />
+        </div>
+      </form>
+
+      <div className="text-center">
+         <p className="text-xs text-slate-400 font-medium">
+           Need an account? <Link href="/request-access" className="text-[#1C3FA4] font-bold hover:underline">Request access</Link>
+         </p>
+      </div>
+    </div>
+  )
+}
+
+export default function LoginPage() {
   return (
     <div className="w-full h-screen grid lg:grid-cols-2 overflow-hidden bg-white">
       
@@ -77,68 +139,14 @@ export default function LoginPage() {
 
       {/* --- RIGHT COLUMN: Form Area --- */}
       <div className="h-full flex flex-col items-center justify-center p-6 md:p-12 lg:p-24 relative bg-white">
-        
-        <div className="w-full max-w-[420px] space-y-8">
-          <div className="text-left space-y-2">
-            <h2 className="text-3xl font-bold tracking-tight text-slate-900">Welcome back</h2>
-            <p className="text-slate-500 font-medium text-sm">Please identify yourself to access the console.</p>
+        <Suspense fallback={
+          <div className="flex items-center gap-2 text-[#1C3FA4] font-medium animate-pulse">
+            <span className="h-4 w-4 border-2 border-[#1C3FA4]/30 border-t-[#1C3FA4] rounded-full animate-spin" />
+            Loading interface...
           </div>
-
-          {error && (
-            <div className="p-4 rounded-xl bg-red-50 border border-red-100 flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
-              <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-              <div className="space-y-1">
-                <p className="text-xs font-bold text-red-600 uppercase tracking-wider">Access Denied</p>
-                <p className="text-sm font-medium text-red-600/80">
-                  {error === "Profile not found" ? "Your account has no assigned administrative role." : error}
-                </p>
-              </div>
-            </div>
-          )}
-
-          <form action={loginAction} className="space-y-5">
-            <div className="space-y-2 group">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 pl-1 group-focus-within:text-[#1C3FA4] transition-colors">Work Email</label>
-              <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <Input 
-                  name="email" 
-                  type="email" 
-                  placeholder="name@company.com" 
-                  className="h-12 pl-11 bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 focus:ring-1 focus:ring-[#1C3FA4] focus:border-[#1C3FA4] transition-all rounded-xl font-medium" 
-                  required 
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2 group">
-              <div className="flex justify-between items-center mb-1">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 pl-1 group-focus-within:text-[#1C3FA4] transition-colors">Credential Key</label>
-                <Link href="/forgot-password" size="sm" className="text-[10px] font-bold uppercase text-[#1C3FA4] hover:underline tracking-wider">Recover?</Link>
-              </div>
-              <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <Input 
-                  name="password" 
-                  type="password" 
-                  placeholder="••••••••••••" 
-                  className="h-12 pl-11 bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 focus:ring-1 focus:ring-[#1C3FA4] focus:border-[#1C3FA4] transition-all rounded-xl font-medium" 
-                  required 
-                />
-              </div>
-            </div>
-
-            <div className="pt-2">
-              <SubmitButton />
-            </div>
-          </form>
-
-          <div className="text-center">
-             <p className="text-xs text-slate-400 font-medium">
-               Need an account? <Link href="/request-access" className="text-[#1C3FA4] font-bold hover:underline">Request access</Link>
-             </p>
-          </div>
-        </div>
+        }>
+          <LoginForm />
+        </Suspense>
       </div>
     </div>
   )
