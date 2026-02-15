@@ -1,0 +1,128 @@
+/* chat-custom.css */
+
+.str-chat {
+  --str-chat__primary-color: #1C3FA4;
+  --str-chat__active-primary-color: #152d75;
+  --str-chat__surface-color: #ffffff;
+  --str-chat__secondary-surface-color: #f8fafc;
+  --str-chat__surface-content: #1e293b;
+  --str-chat__text-color: #334155;
+  --str-chat__secondary-text-color: #64748b;
+  font-family: inherit; /* Use your app's font */
+}
+
+/* --- Container Cleanups --- */
+.str-chat__channel-list {
+  width: 100% !important;
+  background: transparent !important;
+}
+
+/* --- Message List --- */
+.str-chat__list {
+  background: #ffffff;
+}
+
+/* Remove default dates separator background */
+.str-chat__date-separator-line {
+  background: #f1f5f9 !important;
+}
+.str-chat__date-separator-date {
+  color: #94a3b8 !important;
+  font-weight: 500 !important;
+  font-size: 11px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* --- Bubbles --- */
+.str-chat__message-bubble {
+  border-radius: 20px !important;
+  padding: 12px 18px !important;
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02) !important;
+  border: none !important;
+}
+
+/* My Messages */
+.str-chat__message--me .str-chat__message-bubble {
+  background-color: #1C3FA4 !important;
+  color: white !important;
+  border-bottom-right-radius: 4px !important;
+}
+
+/* Other Messages */
+.str-chat__message--other .str-chat__message-bubble {
+  background-color: #f8fafc !important;
+  color: #1e293b !important;
+  border-bottom-left-radius: 4px !important;
+  border: 1px solid #e2e8f0 !important; /* Subtle border for visibility on white */
+}
+
+/* --- Input Area --- */
+.str-chat__message-input {
+  padding: 24px !important;
+  background: white !important;
+  border-top: 1px solid #f8fafc !important;
+}
+
+.str-chat__message-input-inner {
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 16px !important;
+  background-color: white !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02) !important;
+  transition: all 0.2s ease;
+}
+
+.str-chat__message-input-inner:focus-within {
+  border-color: #1C3FA4 !important;
+  box-shadow: 0 0 0 4px rgba(28, 63, 164, 0.1) !important;
+}
+
+/* Remove the default grey background on the input text area */
+.str-chat__textarea textarea {
+  background: transparent !important;
+}
+
+/* --- Send Button & Icons --- */
+/* IMPORTANT: Removing black backgrounds */
+.str-chat__send-button {
+  background: #1C3FA4 !important;
+  border-radius: 12px !important;
+  margin-right: 4px;
+}
+.str-chat__send-button:hover {
+  background: #152d75 !important;
+}
+.str-chat__send-button svg {
+  fill: white !important;
+}
+
+/* Attachment buttons etc */
+.str-chat__input-flat .str-chat__file-input-container svg,
+.str-chat__input-flat .str-chat__emoji-picker-container svg {
+  fill: #94a3b8 !important; 
+}
+.str-chat__input-flat .str-chat__file-input-container:hover svg {
+  fill: #1C3FA4 !important;
+}
+
+/* --- Scrollbar Customization --- */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Hide the default empty channel list state if we are handling it */
+.str-chat__channel-list-empty {
+  display: none;
+}
