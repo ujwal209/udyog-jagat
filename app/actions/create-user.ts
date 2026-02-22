@@ -99,7 +99,7 @@ export async function createUserAction(formData: FormData, creatorRole: string) 
             <p><strong>Role:</strong> ${targetRole}</p>
           </div>
           <p>Please login and change your password immediately.</p>
-          <a href="https://udyogjagat.com/login" style="background: #1C3FA4; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Login Now</a>
+          <a href="https://udyog-jagat.itmilanblr.co.in/login" style="background: #1C3FA4; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Login Now</a>
         </div>
       `;
 
