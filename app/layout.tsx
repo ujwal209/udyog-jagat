@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   description: "Find your dream job or the perfect candidate on Udyog Jagat.",
 }
 
+import { Toaster } from "sonner"
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -18,6 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           disableTransitionOnChange
         >
           {children}
+          <Toaster position="top-center" richColors />
         </ThemeProvider>
       </body>
     </html>
