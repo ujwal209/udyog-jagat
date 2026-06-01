@@ -32,7 +32,7 @@ export default async function CandidateLayout({
   }
 
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-[#1C3FA4]/10 selection:text-[#1C3FA4]">
+    <div className="min-h-screen bg-background font-sans text-foreground selection:bg-primary/10 selection:text-primary">
       
       {/* Global Toaster for Candidate Dashboard 
         - Positioned top-right
@@ -40,16 +40,10 @@ export default async function CandidateLayout({
       */}
       <Toaster 
         position="top-right"
-        theme="light"
         closeButton
         richColors
         toastOptions={{
-          className: "rounded-2xl border-slate-100 shadow-xl shadow-slate-200/20 font-medium",
-          style: {
-            background: 'white',
-            color: '#0f172a',
-            border: '1px solid #f1f5f9',
-          },
+          className: "rounded-2xl border-border shadow-xl font-medium",
         }}
       />
 
@@ -58,7 +52,7 @@ export default async function CandidateLayout({
         <CandidateSidebar />
         
         {/* Main Content Area */}
-        <main className="flex-1 w-full min-w-0 bg-white relative">
+        <main className="flex-1 w-full min-w-0 bg-background relative pb-20 lg:pb-0">
           {children}
         </main>
       </div>

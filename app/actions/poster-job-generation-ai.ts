@@ -20,6 +20,7 @@ export async function generateJobDetailsWithAIAction(prompt: string) {
           - description: A detailed, engaging job description (at least 150 words).
           - requirements: A bulleted list of 5-7 key skills and qualifications.
           
+          CRITICAL INSTRUCTION: You must cater to the Indian job market. NEVER use US Dollars ($). If you mention salary or compensation in the description, ALWAYS use Indian Rupees (₹) or Lakhs Per Annum (LPA).
           Do not include markdown formatting or extra text. Just the JSON.`
         },
         {

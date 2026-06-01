@@ -114,57 +114,57 @@ export default function PosterProfilePage() {
   if (loading) {
     return (
       <div className="h-[80vh] w-full flex flex-col items-center justify-center">
-        <Loader2 className="w-10 h-10 text-[#1C3FA4] animate-spin mb-4" />
-        <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">Loading Profile...</p>
+        <Loader2 className="w-8 h-8 text-muted-foreground animate-spin mb-4" />
+        <p className="text-muted-foreground text-sm font-semibold uppercase tracking-widest">Loading Profile...</p>
       </div>
     )
   }
 
   return (
-    <div className="max-w-5xl mx-auto py-12 px-6 font-sans text-slate-900 animate-in fade-in duration-700">
+    <div className="max-w-5xl mx-auto py-8 md:py-12 px-4 md:px-6 font-sans text-foreground animate-in fade-in duration-300">
       
       {/* --- HEADER --- */}
-      <div className="mb-10 space-y-2">
-        <h1 className="text-4xl font-semibold tracking-tight text-slate-900">
-          Account <span className="text-[#1C3FA4]">Settings</span>
+      <div className="mb-8 space-y-2">
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">
+          Account Settings
         </h1>
-        <p className="text-slate-500 font-medium text-sm max-w-lg">
+        <p className="text-muted-foreground text-sm">
           Manage your personal information, organizational alignment, and security preferences.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* LEFT COLUMN: PROFILE FORM (2/3 width) */}
-        <div className="lg:col-span-2 space-y-8">
-          <form onSubmit={handleProfileSubmit} className="bg-white border border-slate-100 rounded-[2.5rem] p-8 shadow-sm space-y-8">
-            <div className="flex items-center gap-3 border-b border-slate-50 pb-6">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-[#1C3FA4]">
-                <User className="w-5 h-5" />
+        <div className="lg:col-span-2 space-y-6">
+          <form onSubmit={handleProfileSubmit} className="bg-card border border-border rounded-lg p-6 shadow-sm space-y-6">
+            <div className="flex items-center gap-3 border-b border-border pb-4">
+              <div className="w-8 h-8 rounded bg-secondary flex items-center justify-center text-primary">
+                <User className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-slate-900">Personal & Organization</h3>
-                <p className="text-xs text-slate-400 font-medium">Update your public profile details.</p>
+                <h3 className="text-base font-semibold text-foreground">Personal & Organization</h3>
+                <p className="text-xs text-muted-foreground">Update your public profile details.</p>
               </div>
             </div>
 
             {/* AVATAR UPLOAD */}
             <div className="flex items-center gap-6">
               <div className="relative group">
-                <Avatar className="w-24 h-24 rounded-[1.5rem] border-4 border-slate-50 shadow-sm">
+                <Avatar className="w-20 h-20 rounded-md border border-border bg-secondary shadow-sm">
                   <AvatarImage src={avatarPreview || user?.avatar_url} className="object-cover" />
-                  <AvatarFallback className="bg-slate-100 text-[#1C3FA4] font-bold text-xl">
+                  <AvatarFallback className="bg-secondary text-muted-foreground font-bold text-lg">
                     {user?.full_name?.[0]}
                   </AvatarFallback>
                 </Avatar>
-                <label className="absolute -bottom-2 -right-2 p-2.5 bg-[#1C3FA4] text-white rounded-xl shadow-lg hover:bg-[#152d75] transition-all cursor-pointer ring-4 ring-white flex items-center justify-center">
-                  <Camera className="w-4 h-4" />
+                <label className="absolute -bottom-2 -right-2 p-1.5 bg-primary text-primary-foreground rounded-md shadow-sm hover:bg-primary/90 transition-all cursor-pointer ring-2 ring-background flex items-center justify-center">
+                  <Camera className="w-3.5 h-3.5" />
                   <input type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
                 </label>
               </div>
               <div className="space-y-1">
-                <p className="text-sm font-bold text-slate-900">Profile Photo</p>
-                <p className="text-xs text-slate-400">Supports JPG, PNG (Max 2MB)</p>
+                <p className="text-sm font-semibold text-foreground">Profile Photo</p>
+                <p className="text-xs text-muted-foreground">Supports JPG, PNG (Max 2MB)</p>
               </div>
             </div>
 
@@ -172,109 +172,109 @@ export default function PosterProfilePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               
               <div className="space-y-2">
-                <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500 ml-1">Full Name</label>
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Full Name</label>
                 <div className="relative">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <Input name="fullName" defaultValue={user?.full_name} className="pl-11 h-12 rounded-xl border-slate-200 bg-white text-slate-900 font-medium focus:border-[#1C3FA4]" />
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input name="fullName" defaultValue={user?.full_name} className="pl-9 h-10 border-border bg-background focus-visible:ring-1" />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500 ml-1">Email Address</label>
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Email Address</label>
                 <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <Input defaultValue={user?.email} disabled className="pl-11 h-12 rounded-xl border-slate-100 bg-slate-50 text-slate-500 font-medium cursor-not-allowed" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input defaultValue={user?.email} disabled className="pl-9 h-10 border-border bg-secondary text-muted-foreground cursor-not-allowed" />
                 </div>
               </div>
 
               {/* ORG FIELDS */}
               <div className="space-y-2">
-                <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500 ml-1">Vibhaaga</label>
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Vibhaaga</label>
                 <div className="relative">
-                  <LayoutGrid className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <Input name="vibhaaga" defaultValue={user?.vibhaaga} className="pl-11 h-12 rounded-xl border-slate-200 bg-white text-slate-900 font-medium focus:border-[#1C3FA4]" />
+                  <LayoutGrid className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input name="vibhaaga" defaultValue={user?.vibhaaga} className="pl-9 h-10 border-border bg-background focus-visible:ring-1" />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500 ml-1">Khanda</label>
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Khanda</label>
                 <div className="relative">
-                  <LayoutGrid className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <Input name="khanda" defaultValue={user?.khanda} className="pl-11 h-12 rounded-xl border-slate-200 bg-white text-slate-900 font-medium focus:border-[#1C3FA4]" />
+                  <LayoutGrid className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input name="khanda" defaultValue={user?.khanda} className="pl-9 h-10 border-border bg-background focus-visible:ring-1" />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500 ml-1">Valaya</label>
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Valaya</label>
                 <div className="relative">
-                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <Input name="valaya" defaultValue={user?.valaya} className="pl-11 h-12 rounded-xl border-slate-200 bg-white text-slate-900 font-medium focus:border-[#1C3FA4]" />
+                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input name="valaya" defaultValue={user?.valaya} className="pl-9 h-10 border-border bg-background focus-visible:ring-1" />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500 ml-1">Milan</label>
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Milan</label>
                 <div className="relative">
-                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <Input name="milan" defaultValue={user?.milan} className="pl-11 h-12 rounded-xl border-slate-200 bg-white text-slate-900 font-medium focus:border-[#1C3FA4]" />
+                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input name="milan" defaultValue={user?.milan} className="pl-9 h-10 border-border bg-background focus-visible:ring-1" />
                 </div>
               </div>
 
             </div>
 
-            <div className="pt-4 flex justify-end">
-              <Button disabled={saving} className="bg-[#1C3FA4] hover:bg-[#152d75] text-white rounded-xl h-12 px-8 font-bold shadow-lg shadow-blue-900/10">
-                {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <div className="flex items-center gap-2"><Save className="w-4 h-4" /> Save Changes</div>}
+            <div className="pt-2 flex justify-end">
+              <Button disabled={saving} className="gap-2">
+                {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} 
+                {saving ? "Saving..." : "Save Changes"}
               </Button>
             </div>
           </form>
         </div>
 
         {/* RIGHT COLUMN: SECURITY (1/3 width) */}
-        <div className="lg:col-span-1 space-y-8">
-          <form onSubmit={handlePasswordSubmit} className="bg-white border border-slate-100 rounded-[2.5rem] p-8 shadow-sm space-y-6 h-fit">
-            <div className="flex items-center gap-3 border-b border-slate-50 pb-6">
-              <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600">
-                <Shield className="w-5 h-5" />
+        <div className="lg:col-span-1 space-y-6">
+          <form onSubmit={handlePasswordSubmit} className="bg-card border border-border rounded-lg p-6 shadow-sm space-y-6">
+            <div className="flex items-center gap-3 border-b border-border pb-4">
+              <div className="w-8 h-8 rounded bg-secondary flex items-center justify-center text-amber-500">
+                <Shield className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-slate-900">Security</h3>
-                <p className="text-xs text-slate-400 font-medium">Update credentials.</p>
+                <h3 className="text-base font-semibold text-foreground">Security</h3>
+                <p className="text-xs text-muted-foreground">Update credentials.</p>
               </div>
             </div>
 
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500 ml-1">New Password</label>
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">New Password</label>
                 <div className="relative">
-                  <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <Input name="newPassword" type="password" placeholder="••••••••" required minLength={6} className="pl-11 h-12 rounded-xl border-slate-200 bg-white text-slate-900 font-medium focus:border-[#1C3FA4]" />
+                  <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input name="newPassword" type="password" placeholder="••••••••" required minLength={6} className="pl-9 h-10 border-border bg-background focus-visible:ring-1" />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500 ml-1">Confirm Password</label>
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Confirm Password</label>
                 <div className="relative">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <Input name="confirmPassword" type="password" placeholder="••••••••" required minLength={6} className="pl-11 h-12 rounded-xl border-slate-200 bg-white text-slate-900 font-medium focus:border-[#1C3FA4]" />
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input name="confirmPassword" type="password" placeholder="••••••••" required minLength={6} className="pl-9 h-10 border-border bg-background focus-visible:ring-1" />
                 </div>
               </div>
             </div>
 
             <div className="pt-2">
-              <Button disabled={passLoading} className="w-full bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-[#1C3FA4] hover:border-blue-100 rounded-xl h-12 font-bold transition-all">
+              <Button disabled={passLoading} variant="outline" className="w-full">
                 {passLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Update Password"}
               </Button>
             </div>
           </form>
 
           {/* Status Card */}
-          <div className="bg-[#1C3FA4] rounded-[2rem] p-6 text-white relative overflow-hidden shadow-xl shadow-blue-900/20">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-            <div className="relative z-10 flex items-center gap-4">
-              <CheckCircle2 className="w-8 h-8 text-emerald-300" />
+          <div className="bg-primary rounded-lg p-6 text-primary-foreground shadow-sm">
+            <div className="flex items-center gap-4">
+              <CheckCircle2 className="w-8 h-8 text-emerald-400" />
               <div>
-                <p className="text-sm font-bold opacity-90">Account Status</p>
+                <p className="text-sm font-semibold opacity-90">Account Status</p>
                 <p className="text-xl font-bold">Active</p>
               </div>
             </div>

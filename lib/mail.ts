@@ -12,21 +12,69 @@ export async function sendOTPEmail(email: string, otp: string) {
   const mailOptions = {
     from: `"Udyog Jagat Support" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: 'Password Reset OTP - Udyog Jagat',
+    subject: 'Your Authentication Code - Udyog Jagat',
     html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; rounded: 12px;">
-        <h2 style="color: #1C3FA4; text-align: center;">Udyog Jagat Security</h2>
-        <p>Hello,</p>
-        <p>You requested a password reset for your account. Please use the following One-Time Password (OTP) to proceed:</p>
-        <div style="background-color: #f1f5f9; padding: 15px; text-align: center; font-size: 24px; font-weight: bold; letter-spacing: 5px; color: #1C3FA4; border-radius: 8px; margin: 20px 0;">
-          ${otp}
-        </div>
-        <p>This OTP is valid for 10 minutes. If you did not request this, please ignore this email.</p>
-        <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
-        <p style="font-size: 12px; color: #64748b; text-align: center;">
-          © 2026 Udyog Jagat | ISO 27001 Certified Security
-        </p>
-      </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verification Code</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background-color: #f8fafc; padding: 40px 20px;">
+    <tr>
+      <td align="center">
+        <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="max-width: 600px; background-color: #ffffff; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); overflow: hidden;">
+          
+          <!-- Header -->
+          <tr>
+            <td style="padding: 40px 40px 20px 40px; text-align: center; border-bottom: 1px solid #f1f5f9;">
+              <h1 style="margin: 0; color: #1e3a8a; font-size: 28px; font-weight: 900; letter-spacing: -1px;">UDYOG JAGAT</h1>
+              <p style="margin: 8px 0 0 0; color: #64748b; font-size: 14px; text-transform: uppercase; letter-spacing: 2px;">Security Verification</p>
+            </td>
+          </tr>
+
+          <!-- Body -->
+          <tr>
+            <td style="padding: 40px;">
+              <p style="margin: 0 0 24px 0; color: #334155; font-size: 16px; line-height: 24px;">Hello,</p>
+              <p style="margin: 0 0 32px 0; color: #334155; font-size: 16px; line-height: 24px;">You recently requested an authentication code. Please use the following One-Time Password (OTP) to securely proceed with your request.</p>
+              
+              <!-- OTP Box -->
+              <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+                <tr>
+                  <td align="center">
+                    <div style="background-color: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; display: inline-block;">
+                      <span style="font-size: 32px; font-weight: 800; letter-spacing: 8px; color: #1e3a8a; font-family: monospace;">${otp}</span>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin: 32px 0 0 0; color: #64748b; font-size: 14px; line-height: 24px; text-align: center;">
+                This code will automatically expire in <strong style="color: #334155;">10 minutes</strong>.<br/>
+                If you did not request this code, please safely ignore this email.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color: #f8fafc; padding: 24px 40px; text-align: center; border-top: 1px solid #e2e8f0;">
+              <p style="margin: 0; color: #94a3b8; font-size: 12px; line-height: 18px;">
+                © ${new Date().getFullYear()} Udyog Jagat Inc. All rights reserved.<br/>
+                The Modern Hiring Infrastructure.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
     `,
   };
 

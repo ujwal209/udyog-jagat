@@ -4,12 +4,12 @@ import * as React from "react"
 import Link from "next/link"
 import { 
   Briefcase, Users, Clock, Plus, 
-  ArrowUpRight, FileText, LayoutGrid, 
-  MapPin, Loader2, TrendingUp, CheckCircle2
+  ArrowUpRight, FileText, MapPin, Loader2, CheckCircle2
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { getPosterDashboardData } from "@/app/actions/poster-dashboard"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { OrgBanner } from "@/components/org-banner"
 
 export default function PosterDashboardPage() {
   const [data, setData] = React.useState<any>(null)
@@ -27,8 +27,8 @@ export default function PosterDashboardPage() {
   if (loading) {
     return (
       <div className="h-[calc(100vh-100px)] w-full flex flex-col items-center justify-center">
-        <Loader2 className="w-10 h-10 text-[#1C3FA4] animate-spin mb-4" />
-        <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">Loading Dashboard...</p>
+        <Loader2 className="w-8 h-8 text-primary animate-spin mb-4" />
+        <p className="text-muted-foreground text-sm font-medium">Loading Dashboard...</p>
       </div>
     )
   }
@@ -36,150 +36,142 @@ export default function PosterDashboardPage() {
   const { poster, stats, recentJobs } = data || {}
 
   return (
-    <div className="max-w-7xl mx-auto p-6 md:p-10 space-y-10 font-sans text-slate-900 animate-in fade-in duration-500">
+    <div className="max-w-6xl mx-auto p-6 md:p-10 space-y-8 bg-background text-foreground animate-in fade-in duration-300">
       
+      {/* --- SKIPPABLE ORG BANNER --- */}
+      <OrgBanner user={poster} role="poster" />
+
       {/* --- HEADER SECTION --- */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div className="space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-[#1C3FA4] border border-blue-100 text-[10px] font-bold uppercase tracking-wider">
-            <LayoutGrid className="w-3.5 h-3.5" /> {poster?.vibhaaga || "Region"} • {poster?.khanda || "Zone"}
-          </div>
-          <h1 className="text-4xl font-bold tracking-tight text-slate-900">
-            Hello, <span className="text-[#1C3FA4]">{poster?.full_name?.split(' ')[0]}</span>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">
+            Overview
           </h1>
-          <p className="text-slate-500 font-medium text-sm">
-            Here is what's happening with your listings in <span className="font-semibold text-slate-700">{poster?.milan || "your unit"}</span> today.
+          <p className="text-muted-foreground text-sm mt-1">
+            Welcome back, {poster?.full_name?.split(' ')[0] || "User"}. Here's what's happening today.
           </p>
         </div>
 
         <Link href="/dashboard/poster/post-job">
-          <Button className="h-12 px-6 bg-[#1C3FA4] hover:bg-[#152d75] text-white rounded-xl font-bold text-xs uppercase tracking-wider shadow-lg shadow-blue-900/10 transition-all active:scale-95 gap-2">
+          <Button className="h-10 px-4 bg-primary hover:bg-primary/90 text-primary-foreground rounded-md font-medium text-sm transition-all gap-2">
             <Plus className="w-4 h-4" /> Post New Job
           </Button>
         </Link>
       </div>
 
       {/* --- STATS GRID --- */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard 
           label="Active Jobs" 
           value={stats?.activeJobs} 
           icon={Briefcase} 
-          trend="Live Now"
-          color="blue"
         />
         <StatCard 
           label="Total Applicants" 
           value={stats?.totalApplicants} 
           icon={Users} 
-          trend="All Time"
-          color="emerald"
         />
         <StatCard 
           label="Pending Review" 
           value={stats?.pendingReview} 
           icon={Clock} 
-          trend="Needs Action"
-          color="amber"
         />
         <StatCard 
           label="Total Posted" 
           value={stats?.totalJobs} 
           icon={FileText} 
-          trend="Lifetime"
-          color="slate"
         />
       </div>
 
       {/* --- CONTENT AREA --- */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* RECENT JOBS TABLE */}
-        <div className="lg:col-span-2 bg-white border border-slate-100 rounded-[2.5rem] p-8 shadow-sm flex flex-col">
-          <div className="flex items-center justify-between mb-8">
-            <h3 className="text-lg font-bold text-slate-900">Recent Postings</h3>
+        <div className="lg:col-span-2 bg-card border border-border rounded-lg shadow-sm flex flex-col">
+          <div className="flex items-center justify-between p-6 border-b border-border">
+            <h3 className="font-semibold text-foreground">Recent Postings</h3>
             <Link href="/dashboard/poster/my-jobs">
-              <Button variant="ghost" className="text-[#1C3FA4] hover:bg-blue-50 text-xs font-bold uppercase tracking-wide">
+              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
                 View All
               </Button>
             </Link>
           </div>
 
-          <div className="space-y-4 flex-1">
+          <div className="p-0">
             {recentJobs && recentJobs.length > 0 ? (
-              recentJobs.map((job: any) => (
-                <div key={job.id} className="group flex items-center justify-between p-5 rounded-2xl bg-slate-50/50 hover:bg-white border border-transparent hover:border-slate-100 hover:shadow-md transition-all duration-300 cursor-pointer">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-[#1C3FA4] shadow-sm group-hover:scale-110 transition-transform">
-                      <Briefcase className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-slate-900 text-sm">{job.title}</h4>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className={`inline-block w-2 h-2 rounded-full ${job.status === 'active' ? 'bg-emerald-500' : 'bg-slate-300'}`} />
-                        <p className="text-xs text-slate-500 font-medium capitalize">{job.status}</p>
-                        <span className="text-slate-300">•</span>
-                        <p className="text-xs text-slate-400 font-medium">Posted {new Date(job.created_at).toLocaleDateString()}</p>
+              <div className="divide-y divide-border">
+                {recentJobs.map((job: any) => (
+                  <Link href={`/dashboard/poster/edit-job/${job.id}`} key={job.id} className="group flex items-center justify-between p-4 hover:bg-secondary/50 transition-colors">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded bg-secondary border border-border flex items-center justify-center text-muted-foreground group-hover:text-foreground transition-colors">
+                        <Briefcase className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-foreground text-sm">{job.title}</h4>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className={`inline-block w-2 h-2 rounded-full ${job.status === 'active' ? 'bg-emerald-500' : 'bg-muted-foreground'}`} />
+                          <p className="text-xs text-muted-foreground capitalize">{job.status}</p>
+                          <span className="text-muted-foreground text-xs">•</span>
+                          <p className="text-xs text-muted-foreground">{new Date(job.created_at).toLocaleDateString()}</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                    <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-[#1C3FA4]" />
-                  </div>
-                </div>
-              ))
+                    <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                ))}
+              </div>
             ) : (
-              <div className="flex flex-col items-center justify-center h-48 text-center border-2 border-dashed border-slate-100 rounded-2xl">
-                <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mb-3">
-                  <Briefcase className="w-5 h-5 text-slate-300" />
+              <div className="flex flex-col items-center justify-center p-12 text-center">
+                <div className="w-10 h-10 bg-secondary rounded flex items-center justify-center mb-3">
+                  <Briefcase className="w-4 h-4 text-muted-foreground" />
                 </div>
-                <p className="text-slate-400 font-medium text-sm">No jobs posted yet.</p>
+                <p className="text-foreground font-medium text-sm">No jobs posted yet.</p>
+                <p className="text-muted-foreground text-xs mt-1">Create your first job listing to start receiving applications.</p>
               </div>
             )}
           </div>
         </div>
 
         {/* PROFILE / ORG CARD */}
-        <div className="bg-[#1C3FA4] rounded-[2.5rem] p-8 text-white relative overflow-hidden shadow-xl shadow-blue-900/20 flex flex-col justify-between">
-          {/* Decor */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+        <div className="bg-card border border-border rounded-lg shadow-sm flex flex-col">
+          <div className="p-6 border-b border-border">
+            <h3 className="font-semibold text-foreground">Organization Details</h3>
+          </div>
           
-          <div className="relative z-10">
+          <div className="p-6 flex-1 flex flex-col">
             <div className="flex items-center gap-4 mb-6">
-              <Avatar className="w-16 h-16 border-4 border-white/20 shadow-lg">
-                <AvatarImage src={poster?.avatar_url} />
-                <AvatarFallback className="bg-white/10 text-white font-bold">
+              <Avatar className="w-12 h-12 rounded border border-border bg-background">
+                <AvatarImage src={poster?.avatar_url} className="object-cover" />
+                <AvatarFallback className="bg-secondary text-muted-foreground text-sm font-medium rounded">
                   {poster?.full_name?.[0]}
                 </AvatarFallback>
               </Avatar>
               <div>
-                <p className="text-blue-200 text-xs font-bold uppercase tracking-widest">Job Poster</p>
-                <h3 className="text-lg font-bold">{poster?.full_name}</h3>
+                <h3 className="font-medium text-foreground text-sm">{poster?.full_name}</h3>
+                <p className="text-muted-foreground text-xs">{poster?.email}</p>
               </div>
             </div>
 
-            <div className="space-y-4">
-              <div className="bg-white/10 rounded-xl p-4 backdrop-blur-md border border-white/10">
-                <p className="text-blue-200 text-[10px] font-bold uppercase tracking-widest mb-1">Organization Unit</p>
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-white" />
-                  <span className="font-semibold">{poster?.valaya || "Valaya Not Set"}</span>
+            <div className="space-y-4 flex-1">
+              <div className="space-y-1">
+                <p className="text-muted-foreground text-xs font-medium">Department (Vibhaaga)</p>
+                <div className="flex items-center gap-2 text-sm text-foreground">
+                  <MapPin className="w-4 h-4 text-muted-foreground" />
+                  {poster?.vibhaaga || "Not assigned"}
                 </div>
               </div>
               
-              <div className="bg-white/10 rounded-xl p-4 backdrop-blur-md border border-white/10">
-                <p className="text-blue-200 text-[10px] font-bold uppercase tracking-widest mb-1">Assigned Milan</p>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-300" />
-                  <span className="font-semibold">{poster?.milan || "Milan Not Set"}</span>
+              <div className="space-y-1">
+                <p className="text-muted-foreground text-xs font-medium">Assigned Milan</p>
+                <div className="flex items-center gap-2 text-sm text-foreground">
+                  <CheckCircle2 className="w-4 h-4 text-muted-foreground" />
+                  {poster?.milan || "Not assigned"}
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="relative z-10 mt-8 pt-6 border-t border-white/10">
-            <Link href="/dashboard/poster/profile">
-              <Button className="w-full bg-white text-[#1C3FA4] hover:bg-blue-50 border-none font-bold rounded-xl h-12 transition-all">
+            <Link href="/dashboard/poster/profile" className="mt-6 block">
+              <Button variant="outline" className="w-full text-sm font-medium">
                 Edit Profile
               </Button>
             </Link>
@@ -193,31 +185,19 @@ export default function PosterDashboardPage() {
 
 // --- HELPER COMPONENTS ---
 
-function StatCard({ label, value, icon: Icon, trend, color }: any) {
-  const colors: any = {
-    blue: "text-blue-600 bg-blue-50 border-blue-100",
-    emerald: "text-emerald-600 bg-emerald-50 border-emerald-100",
-    amber: "text-amber-600 bg-amber-50 border-amber-100",
-    slate: "text-slate-600 bg-slate-100 border-slate-200"
-  }
-
-  const activeColor = colors[color] || colors.slate
-
+function StatCard({ label, value, icon: Icon }: any) {
   return (
-    <div className="bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm hover:shadow-md transition-all duration-300 group">
-      <div className="flex items-start justify-between mb-4">
-        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border ${activeColor} transition-colors`}>
-          <Icon className="w-6 h-6" />
+    <div className="bg-card border border-border rounded-lg p-5 shadow-sm">
+      <div className="flex items-center gap-3 mb-2">
+        <div className="w-8 h-8 rounded bg-secondary flex items-center justify-center">
+          <Icon className="w-4 h-4 text-muted-foreground" />
         </div>
-        <div className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 bg-slate-50 px-2 py-1 rounded-lg">
-          <TrendingUp className="w-3 h-3" /> {trend}
-        </div>
+        <p className="text-sm font-medium text-muted-foreground">{label}</p>
       </div>
       <div>
-        <h3 className="text-3xl font-bold text-slate-900 mb-1 group-hover:scale-105 transition-transform origin-left">
-          {value}
+        <h3 className="text-2xl font-bold text-foreground">
+          {value || "0"}
         </h3>
-        <p className="text-sm font-medium text-slate-500">{label}</p>
       </div>
     </div>
   )

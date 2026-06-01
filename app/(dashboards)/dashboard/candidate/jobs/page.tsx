@@ -277,7 +277,7 @@ export default function JobsPage() {
   )
 
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900 p-4 md:p-6 lg:p-10 max-w-7xl mx-auto animate-in fade-in duration-700">
+    <div className="min-h-screen bg-transparent font-sans text-foreground p-4 md:p-6 lg:p-10 max-w-7xl mx-auto animate-in fade-in duration-700">
       
       {/* --- HEADER --- */}
       <div className="flex flex-col gap-6 mb-8 lg:mb-10">
@@ -285,10 +285,10 @@ export default function JobsPage() {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-[10px] font-bold text-[#1C3FA4] uppercase tracking-wider w-fit">
              <Zap className="w-3 h-3 fill-current" /> Live Opportunities
           </div>
-          <h1 className="text-3xl lg:text-4xl font-semibold tracking-tight text-slate-900">
-            Find Your <span className="text-[#1C3FA4]">Next Role</span>
+          <h1 className="text-3xl lg:text-4xl font-semibold tracking-tight text-foreground">
+            Find Your <span className="text-primary">Next Role</span>
           </h1>
-          <p className="text-slate-500 font-medium text-sm max-w-lg">
+          <p className="text-muted-foreground font-medium text-sm max-w-lg">
             Browse active listings and manage your applications.
           </p>
         </div>
@@ -382,8 +382,8 @@ export default function JobsPage() {
                   <div 
                     key={job.id}
                     onClick={() => router.push(`/dashboard/candidate/jobs/${job.id}`)}
-                    className={`group bg-white rounded-[1.5rem] p-5 sm:p-6 border shadow-sm hover:shadow-lg hover:shadow-blue-900/5 transition-all duration-300 relative cursor-pointer ${
-                        isApplied ? "border-emerald-100 bg-emerald-50/10" : "border-slate-200 hover:border-blue-200"
+                    className={`group bg-card rounded-[1.5rem] p-5 sm:p-6 border transition-all duration-300 relative cursor-pointer ${
+                        isApplied ? "border-emerald-100 bg-emerald-50/10" : "border-border hover:border-primary/40 hover:-translate-y-1"
                     }`}
                   >
                     <div className="flex flex-col sm:flex-row gap-5 items-start">
@@ -432,8 +432,8 @@ export default function JobsPage() {
                             <Badge variant="secondary" className="bg-white text-slate-600 border border-slate-200 font-medium rounded-lg px-2.5 py-0.5 text-xs">
                                <Briefcase className="w-3 h-3 mr-1.5 opacity-70" /> {job.type}
                             </Badge>
-                            <Badge variant="secondary" className="bg-white text-slate-600 border border-slate-200 font-medium rounded-lg px-2.5 py-0.5 text-xs">
-                               <DollarSign className="w-3 h-3 mr-1.5 opacity-70" /> {job.salary_range || "Competitive"}
+                            <Badge variant="secondary" className="bg-background text-muted-foreground border border-border font-medium rounded-lg px-2.5 py-0.5 text-xs">
+                               <span className="mr-1.5 opacity-70 font-bold">₹</span> {job.salary_range || "Competitive"}
                             </Badge>
                             <Badge variant="secondary" className="bg-white text-slate-600 border border-slate-200 font-medium rounded-lg px-2.5 py-0.5 text-xs">
                                <MapPin className="w-3 h-3 mr-1.5 opacity-70" /> {job.location}

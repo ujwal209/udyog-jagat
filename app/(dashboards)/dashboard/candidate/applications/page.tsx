@@ -50,9 +50,8 @@ export default function ApplicationsPage() {
   const statusOptions = [
     { value: "all", label: "All Applications" },
     { value: "applied", label: "Applied" },
-    { value: "screening", label: "Screening" },
-    { value: "interview", label: "Interview" },
-    { value: "offer", label: "Offer Received" },
+    { value: "interviewing", label: "Interviewing" },
+    { value: "selected", label: "Selected" },
     { value: "rejected", label: "Rejected" },
   ]
 
@@ -153,10 +152,9 @@ function ApplicationCard({ application }: { application: any }) {
   // Status Config
   const statusConfig: any = {
     applied: { color: "bg-blue-50 text-[#1C3FA4] border-blue-100", label: "Application Sent", icon: FileText, step: 1 },
-    screening: { color: "bg-purple-50 text-purple-700 border-purple-100", label: "Under Review", icon: Search, step: 2 },
-    interview: { color: "bg-orange-50 text-orange-700 border-orange-100", label: "Interview", icon: Calendar, step: 3 },
-    offer: { color: "bg-emerald-50 text-emerald-700 border-emerald-100", label: "Offer Received", icon: CheckCircle2, step: 4 },
-    rejected: { color: "bg-slate-50 text-slate-600 border-slate-200", label: "Not Selected", icon: XCircle, step: 4 },
+    interviewing: { color: "bg-orange-50 text-orange-700 border-orange-100", label: "Interview", icon: Calendar, step: 2 },
+    selected: { color: "bg-emerald-50 text-emerald-700 border-emerald-100", label: "Offer Received", icon: CheckCircle2, step: 3 },
+    rejected: { color: "bg-slate-50 text-slate-600 border-slate-200", label: "Not Selected", icon: XCircle, step: 3 },
   }
 
   const currentStatus = statusConfig[status] || statusConfig.applied
@@ -191,7 +189,7 @@ function ApplicationCard({ application }: { application: any }) {
            
            {/* Visual Progress Dots */}
            <div className="flex items-center gap-1.5 hidden sm:flex">
-              {[1, 2, 3, 4].map((step) => (
+              {[1, 2, 3].map((step) => (
                 <div key={step} className={`h-1.5 w-6 rounded-full transition-colors ${
                   step <= currentStatus.step 
                     ? status === 'rejected' ? "bg-slate-300" : "bg-[#1C3FA4]" 

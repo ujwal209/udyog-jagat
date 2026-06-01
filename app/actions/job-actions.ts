@@ -108,13 +108,21 @@ export async function getJobById(jobId: string) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const { data } = await supabaseAdmin
+  const { data: job } = await supabaseAdmin
     .from("jobs")
     .select("*")
     .eq("id", jobId)
     .single();
     
-  return data;
+  if (!job) return null;
+
+  const { data: posterData } = await supabaseAdmin
+    .from("job_posters")
+    .select("*")
+    .eq("id", job.created_by)
+    .single();
+
+  return { ...job, poster: posterData };
 }
 
 export async function deleteJobAction(jobId: string) {

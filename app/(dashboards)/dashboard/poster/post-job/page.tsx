@@ -6,7 +6,7 @@ import {
   Briefcase, MapPin, 
   IndianRupee, AlignLeft, ListChecks, 
   UploadCloud, Loader2, ArrowRight,
-  ShieldCheck, Zap, Globe, Info, Sparkles, LayoutGrid
+  ShieldCheck, Zap, Globe, Sparkles, LayoutGrid
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -64,7 +64,6 @@ export default function PostJobPage() {
         if (typeRef.current) typeRef.current.value = result.data.type
         if (descRef.current) descRef.current.value = result.data.description
         if (reqRef.current) reqRef.current.value = result.data.requirements
-        // AI doesn't always guess salary/loc accurately, but we can try if returned
         
         toast.success("Form autofilled successfully!", { id: toastId })
       } else {
@@ -135,78 +134,74 @@ export default function PostJobPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto py-12 px-6 font-sans text-slate-900 animate-in fade-in duration-700">
+    <div className="max-w-4xl mx-auto py-8 md:py-12 px-4 md:px-6 font-sans text-foreground animate-in fade-in duration-300">
       
       {/* HEADER */}
-      <div className="mb-10 space-y-4">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-[#1C3FA4] border border-blue-100 text-[10px] font-bold uppercase tracking-wider shadow-sm">
-          <Zap className="w-3.5 h-3.5" /> Recruitment Workflow
+      <div className="mb-8 space-y-2">
+        <div className="inline-flex items-center gap-2 text-muted-foreground text-[10px] font-bold uppercase tracking-wider">
+          <Zap className="w-3 h-3" /> Recruitment Workflow
         </div>
-        <div className="space-y-1">
-          <h1 className="text-4xl font-semibold tracking-tight text-slate-900">
-            Publish <span className="text-[#1C3FA4]">New Listing</span>
-          </h1>
-          <p className="text-slate-500 font-medium text-sm max-w-lg leading-relaxed">
-            Initialize an enterprise job posting. Use AI to draft the perfect description.
-          </p>
-        </div>
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">
+          Publish New Listing
+        </h1>
+        <p className="text-muted-foreground text-sm">
+          Initialize an enterprise job posting. Use AI to draft the perfect description.
+        </p>
       </div>
 
       {/* AI BAR */}
-      <div className="mb-12 bg-gradient-to-r from-[#1C3FA4] to-[#152d75] rounded-[2rem] p-8 shadow-2xl shadow-blue-900/20 text-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-        <div className="relative z-10 space-y-6">
-          <div className="flex items-center gap-3 text-blue-100">
-            <Sparkles className="w-5 h-5 text-amber-300" />
-            <h3 className="text-sm font-bold uppercase tracking-widest">AI Content Generator</h3>
+      <div className="mb-8 bg-card border border-border rounded-lg p-6 shadow-sm">
+        <div className="space-y-4">
+          <div className="flex items-center gap-2 text-primary">
+            <Sparkles className="w-4 h-4" />
+            <h3 className="text-sm font-semibold">AI Content Generator</h3>
           </div>
           <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1 relative">
-              <Input 
+            <div className="flex-1">
+              <Textarea 
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 placeholder="e.g. Senior React Developer for a Fintech startup in Bangalore..." 
-                className="h-14 pl-6 rounded-2xl bg-white/10 border-white/20 text-white placeholder:text-blue-200/70 focus:bg-white/20 focus:border-white focus:ring-0 transition-all font-medium backdrop-blur-sm"
+                className="min-h-[80px] border-border bg-background resize-none"
               />
             </div>
             <Button 
               onClick={handleAiGenerate}
               disabled={aiLoading || !prompt}
-              className="h-14 px-8 bg-white text-[#1C3FA4] hover:bg-blue-50 rounded-2xl font-bold uppercase tracking-wide text-xs shadow-lg transition-all active:scale-95"
+              className="h-10 px-6 gap-2"
             >
               {aiLoading ? (
-                <><Loader2 className="w-4 h-4 animate-spin mr-2" /> Generating...</>
+                <><Loader2 className="w-4 h-4 animate-spin" /> Generating...</>
               ) : (
-                <><Sparkles className="w-4 h-4 mr-2" /> Magic Autofill</>
+                <><Sparkles className="w-4 h-4" /> Autofill</>
               )}
             </Button>
           </div>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-8 pb-24">
+      <form onSubmit={handleSubmit} className="space-y-6 pb-24">
         
         {/* KEY DETAILS CARD */}
-        <div className="bg-white border border-slate-100 rounded-[2.5rem] p-8 md:p-10 shadow-sm hover:shadow-md transition-shadow duration-300 space-y-10">
-          <div className="flex items-center gap-3">
-            <div className="h-6 w-1 bg-[#1C3FA4] rounded-full" />
-            <h3 className="text-lg font-semibold text-slate-900">Core Details</h3>
+        <div className="bg-card border border-border rounded-lg p-6 shadow-sm space-y-6">
+          <div className="border-b border-border pb-4">
+            <h3 className="text-lg font-semibold text-foreground">Core Details</h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
-            <div className="space-y-2.5">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500 ml-1">Job Title</label>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Job Title</label>
               <div className="relative group">
-                <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-[#1C3FA4] transition-colors" />
-                <Input ref={titleRef} name="title" placeholder="e.g. Product Manager" required className="h-14 pl-11 rounded-2xl border-slate-200 bg-white text-slate-900 font-medium placeholder:text-slate-400 focus:border-[#1C3FA4] focus:ring-4 focus:ring-blue-50 transition-all" />
+                <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                <Input ref={titleRef} name="title" placeholder="e.g. Product Manager" required className="h-10 pl-9 border-border bg-background focus-visible:ring-1" />
               </div>
             </div>
 
-            <div className="space-y-2.5">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500 ml-1">Department</label>
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Department</label>
               <div className="relative group">
-                <LayoutGrid className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-[#1C3FA4] transition-colors" />
-                <select ref={categoryRef} name="category" required className="w-full h-14 pl-11 pr-4 rounded-2xl border border-slate-200 bg-white text-slate-900 font-medium focus:border-[#1C3FA4] focus:ring-4 focus:ring-blue-50 outline-none text-sm appearance-none cursor-pointer transition-all">
+                <LayoutGrid className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                <select ref={categoryRef} name="category" required className="w-full h-10 pl-9 pr-4 rounded-md border border-border bg-background text-sm focus-visible:ring-1 focus:outline-none appearance-none">
                   <option value="Engineering">Engineering</option>
                   <option value="Marketing">Marketing</option>
                   <option value="Sales">Sales</option>
@@ -217,11 +212,11 @@ export default function PostJobPage() {
               </div>
             </div>
 
-            <div className="space-y-2.5">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500 ml-1">Job Type</label>
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Job Type</label>
               <div className="relative">
-                <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <select ref={typeRef} name="type" required className="w-full h-14 pl-11 pr-4 rounded-2xl border border-slate-200 bg-white text-slate-900 font-medium focus:border-[#1C3FA4] focus:ring-4 focus:ring-blue-50 outline-none text-sm appearance-none cursor-pointer transition-all">
+                <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <select ref={typeRef} name="type" required className="w-full h-10 pl-9 pr-4 rounded-md border border-border bg-background text-sm focus-visible:ring-1 focus:outline-none appearance-none">
                   <option value="Full-time">Full-time</option>
                   <option value="Part-time">Part-time</option>
                   <option value="Contract">Contract</option>
@@ -230,99 +225,98 @@ export default function PostJobPage() {
               </div>
             </div>
 
-            <div className="space-y-2.5">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500 ml-1">Location</label>
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Location</label>
               <div className="relative group">
-                <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-[#1C3FA4] transition-colors" />
-                <Input ref={locRef} name="location" placeholder="e.g. Bengaluru, Karnataka" required className="h-14 pl-11 rounded-2xl border-slate-200 bg-white text-slate-900 font-medium placeholder:text-slate-400 focus:border-[#1C3FA4] focus:ring-4 focus:ring-blue-50 transition-all" />
+                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                <Input ref={locRef} name="location" placeholder="e.g. Bengaluru, Karnataka" required className="h-10 pl-9 border-border bg-background focus-visible:ring-1" />
               </div>
             </div>
 
-            <div className="md:col-span-2 space-y-2.5">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500 ml-1">Salary Range</label>
+            <div className="md:col-span-2 space-y-2">
+              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Salary Range</label>
               <div className="relative group">
-                <IndianRupee className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-[#1C3FA4] transition-colors" />
-                <Input ref={salaryRef} name="salary" placeholder="e.g. 12,00,000 - 18,00,000 PA" className="h-14 pl-11 rounded-2xl border-slate-200 bg-white text-slate-900 font-medium placeholder:text-slate-400 focus:border-[#1C3FA4] focus:ring-4 focus:ring-blue-50 transition-all" />
+                <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                <Input ref={salaryRef} name="salary" placeholder="e.g. 12,00,000 - 18,00,000 PA" className="h-10 pl-9 border-border bg-background focus-visible:ring-1" />
               </div>
             </div>
           </div>
         </div>
 
         {/* DESCRIPTION & LOGO CARD */}
-        <div className="bg-white border border-slate-100 rounded-[2.5rem] p-8 md:p-10 shadow-sm hover:shadow-md transition-shadow duration-300 space-y-10">
-          <div className="flex items-center gap-3">
-            <div className="h-6 w-1 bg-[#1C3FA4] rounded-full" />
-            <h3 className="text-lg font-semibold text-slate-900">Description & Assets</h3>
+        <div className="bg-card border border-border rounded-lg p-6 shadow-sm space-y-6">
+          <div className="border-b border-border pb-4">
+            <h3 className="text-lg font-semibold text-foreground">Description & Assets</h3>
           </div>
 
-          <div className="space-y-8">
-            <div className="flex flex-col md:flex-row gap-8">
-               <div className="space-y-2.5 flex-1">
-                  <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500 ml-1 flex items-center gap-2">
-                    <AlignLeft className="w-3.5 h-3.5 text-[#1C3FA4]" /> Job Description
+          <div className="space-y-6">
+            <div className="flex flex-col md:flex-row gap-6">
+               <div className="space-y-2 flex-1">
+                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+                    <AlignLeft className="w-3.5 h-3.5" /> Job Description
                   </label>
                   <Textarea 
                     ref={descRef}
                     name="description" 
                     required 
                     placeholder="Overview of the role, responsibilities, and mission..." 
-                    className="min-h-[200px] rounded-[1.8rem] border-slate-200 bg-white p-6 text-slate-900 font-medium placeholder:text-slate-400 focus:border-[#1C3FA4] focus:ring-4 focus:ring-blue-50 transition-all leading-relaxed"
+                    className="min-h-[200px] border-border bg-background focus-visible:ring-1"
                   />
                </div>
                
                {/* Logo Upload - Compact */}
-               <div className="w-full md:w-48 space-y-2.5">
-                  <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500 ml-1">Company Logo</label>
+               <div className="w-full md:w-48 space-y-2">
+                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Company Logo</label>
                   <div className="relative group w-full aspect-square">
-                    <div className="absolute inset-0 rounded-[1.5rem] bg-slate-50 border-2 border-dashed border-slate-200 flex flex-col items-center justify-center overflow-hidden transition-all duration-300 group-hover:border-[#1C3FA4] group-hover:bg-blue-50/30 cursor-pointer shadow-inner">
+                    <div className="absolute inset-0 rounded-md bg-secondary border border-dashed border-border flex flex-col items-center justify-center overflow-hidden transition-all duration-300 hover:border-primary hover:bg-secondary/50 cursor-pointer">
                       {logoPreview ? (
                         <img src={logoPreview} className="w-full h-full object-cover" alt="Logo preview" />
                       ) : (
-                        <UploadCloud className="w-8 h-8 text-slate-300 group-hover:text-[#1C3FA4] transition-colors" />
+                        <UploadCloud className="w-6 h-6 text-muted-foreground group-hover:text-primary transition-colors" />
                       )}
                       <input type="file" className="absolute inset-0 opacity-0 cursor-pointer" accept="image/*" onChange={handleLogoChange} />
                     </div>
                   </div>
-                  <p className="text-xs text-center text-slate-400 font-medium">Max 2MB</p>
+                  <p className="text-xs text-center text-muted-foreground">Max 2MB</p>
                </div>
             </div>
 
-            <div className="space-y-2.5">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500 ml-1 flex items-center gap-2">
-                <ListChecks className="w-3.5 h-3.5 text-[#1C3FA4]" /> Requirements (Appended to Description)
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+                <ListChecks className="w-3.5 h-3.5" /> Requirements (Appended to Description)
               </label>
               <Textarea 
                 ref={reqRef}
                 name="requirements" 
                 placeholder="List required skills, education, and experience..." 
-                className="min-h-[140px] rounded-[1.8rem] border-slate-200 bg-white p-6 text-slate-900 font-medium placeholder:text-slate-400 focus:border-[#1C3FA4] focus:ring-4 focus:ring-blue-50 transition-all leading-relaxed"
+                className="min-h-[140px] border-border bg-background focus-visible:ring-1"
               />
             </div>
           </div>
         </div>
 
         {/* FOOTER */}
-        <div className="sticky bottom-8 left-0 right-0 z-10 flex flex-col md:flex-row items-center justify-between gap-6 p-8 bg-white/80 backdrop-blur-md border border-blue-100 rounded-[2.5rem] shadow-2xl shadow-blue-900/10">
-          <div className="flex items-center gap-5">
-            <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center border border-blue-100 shadow-sm shrink-0">
-              <ShieldCheck className="w-6 h-6 text-[#1C3FA4]" />
+        <div className="sticky bottom-4 left-0 right-0 z-10 flex flex-col md:flex-row items-center justify-between gap-4 p-4 bg-card/90 backdrop-blur-md border border-border rounded-lg shadow-lg">
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 rounded bg-secondary flex items-center justify-center border border-border shrink-0">
+              <ShieldCheck className="w-5 h-5 text-muted-foreground" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-slate-900 flex items-center gap-2">
+              <p className="text-sm font-semibold text-foreground flex items-center gap-2">
                 Ready to Publish <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               </p>
-              <p className="text-[11px] text-slate-500 font-medium">Your listing will be instantly visible to all candidates.</p>
+              <p className="text-xs text-muted-foreground">Your listing will be instantly visible to all candidates.</p>
             </div>
           </div>
           
           <Button 
             type="submit" 
             disabled={loading}
-            className="w-full md:w-auto h-16 px-12 bg-[#1C3FA4] hover:bg-[#152d75] text-white rounded-2xl font-bold uppercase tracking-widest text-[11px] shadow-xl shadow-blue-900/10 transition-all active:scale-[0.98] flex items-center justify-center gap-3 border-none"
+            className="w-full md:w-auto gap-2"
           >
             {loading ? (
               <>
-                <Loader2 className="w-5 h-5 animate-spin" /> Processing...
+                <Loader2 className="w-4 h-4 animate-spin" /> Processing...
               </>
             ) : (
               <>Deploy Opportunity <ArrowRight className="w-4 h-4" /></>

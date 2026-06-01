@@ -8,16 +8,19 @@ export async function getSystemOverviewAction() {
     const { data: admins, error: adminErr } = await supabaseAdmin
       .from("admins")
       .select("id, full_name, email, avatar_url, created_at, status, department")
+      .neq("status", "deleted")
 
     // 2. Fetch Candidates (Has phone in schema)
     const { data: candidates, error: candErr } = await supabaseAdmin
       .from("candidates")
       .select("id, full_name, email, phone, avatar_url, created_at, status")
+      .neq("status", "deleted")
 
     // 3. Fetch Job Posters (Referrers) (No phone in schema)
     const { data: referrers, error: refErr } = await supabaseAdmin
       .from("job_posters")
       .select("id, full_name, email, avatar_url, created_at, status")
+      .neq("status", "deleted")
 
     if (adminErr) console.error("Admin Fetch Error:", adminErr)
     if (candErr) console.error("Candidate Fetch Error:", candErr)

@@ -29,9 +29,9 @@ export default async function PosterLayout({
 
   // 4. Render Dashboard (Only reached if onboarded)
   return (
-    <div className="flex min-h-screen bg-slate-50 font-sans text-slate-900">
+    <div className="flex min-h-screen bg-background font-sans text-foreground">
       <PosterSidebar />
-      <main className="flex-1 w-full">
+      <main className="flex-1 w-full pb-20 lg:pb-0">
         {children}
       </main>
     </div>

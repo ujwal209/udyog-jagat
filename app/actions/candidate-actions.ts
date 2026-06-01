@@ -62,6 +62,15 @@ export async function getJobDetailsAction(jobId: string) {
 
   if (error || !job) return null
 
+  // 1b. Fetch poster details
+  const { data: poster } = await supabaseAdmin
+    .from("job_posters")
+    .select("*")
+    .eq("id", job.created_by)
+    .single()
+
+  job.poster = poster || null
+
   // 2. Fetch related jobs
   const { data: related } = await supabaseAdmin
     .from("jobs")

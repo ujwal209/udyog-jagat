@@ -8,8 +8,9 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { getAllUsersAction } from "@/app/actions/get-users"
+import { getAllUsersAction, softDeleteUserAction, restoreUserAction } from "@/app/actions/get-users"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { toast } from "sonner"
 
 export default function MyUsersPage() {
   const [users, setUsers] = React.useState<any[]>([])
@@ -24,6 +25,37 @@ export default function MyUsersPage() {
   }
 
   React.useEffect(() => { fetchUsers() }, [])
+
+  const handleSoftDelete = async (id: string, type: string) => {
+    if (type === "Admin") {
+      toast.error("Cannot delete an administrator")
+      return
+    }
+    
+    // Optimistic Update
+    setUsers(prev => prev.map(u => u.id === id ? { ...u, status: 'deleted' } : u))
+    
+    const res = await softDeleteUserAction(id, type)
+    if (res.success) {
+      toast.success(`${type} successfully suspended`)
+    } else {
+      toast.error(res.error || "Failed to delete user")
+      fetchUsers() // revert
+    }
+  }
+
+  const handleRestore = async (id: string, type: string) => {
+    // Optimistic Update
+    setUsers(prev => prev.map(u => u.id === id ? { ...u, status: 'active' } : u))
+    
+    const res = await restoreUserAction(id, type)
+    if (res.success) {
+      toast.success(`${type} successfully restored`)
+    } else {
+      toast.error(res.error || "Failed to restore user")
+      fetchUsers() // revert
+    }
+  }
 
   const filteredUsers = users.filter(u => 
     u.full_name?.toLowerCase().includes(search.toLowerCase()) || 
@@ -122,19 +154,39 @@ export default function MyUsersPage() {
 
                 {/* Status Column */}
                 <div className="col-span-2 flex justify-center mt-4 md:mt-0">
-                  <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
-                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[10px] font-bold uppercase tracking-tight">Verified</span>
-                  </div>
+                  {user.status === 'deleted' ? (
+                    <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-red-50 text-red-700 border border-red-100">
+                      <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                      <span className="text-[10px] font-bold uppercase tracking-tight">Suspended</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      <span className="text-[10px] font-bold uppercase tracking-tight">Verified</span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Actions Column */}
                 <div className="col-span-2 flex justify-end mt-4 md:mt-0">
-                  <div className="flex items-center gap-1">
-                    <Button variant="ghost" size="icon" className="h-9 w-9 rounded-xl text-slate-400 hover:text-[#1C3FA4] hover:bg-white border border-transparent hover:border-slate-200">
-                      <MoreHorizontal className="w-4 h-4" />
-                    </Button>
-                    <ChevronRight className="w-4 h-4 text-slate-200 group-hover:text-[#1C3FA4] group-hover:translate-x-1 transition-all" />
+                  <div className="flex items-center gap-2">
+                    {user.status === 'deleted' ? (
+                      <Button 
+                        variant="ghost" 
+                        onClick={() => handleRestore(user.id, user.type || 'Candidate')}
+                        className="h-9 px-3 text-xs font-bold rounded-xl text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 border border-transparent hover:border-emerald-100 transition-all"
+                      >
+                        Restore
+                      </Button>
+                    ) : (
+                      <Button 
+                        variant="ghost" 
+                        onClick={() => handleSoftDelete(user.id, user.type || 'Candidate')}
+                        className="h-9 px-3 text-xs font-bold rounded-xl text-slate-400 hover:text-red-600 hover:bg-red-50 border border-transparent hover:border-red-100 transition-all"
+                      >
+                        Delete
+                      </Button>
+                    )}
                   </div>
                 </div>
               </div>

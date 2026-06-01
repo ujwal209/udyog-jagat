@@ -6,7 +6,7 @@ import {
   MapPin, Calendar, Mail, Phone,
   CheckCircle2, XCircle, Clock, 
   Loader2, Briefcase, User, 
-  FileText, Download, Filter
+  FileText, Download
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -88,49 +88,49 @@ export default function ApplicationsPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto py-8 md:py-12 px-4 md:px-6 font-sans text-slate-900 animate-in fade-in duration-700">
+    <div className="max-w-7xl mx-auto py-8 md:py-12 px-4 md:px-6 font-sans text-foreground animate-in fade-in duration-300">
       
       {/* HEADER */}
-      <div className="mb-8 md:mb-12 space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-[#1C3FA4] border border-blue-100 text-[10px] font-bold uppercase tracking-wider">
-          <Briefcase className="w-3.5 h-3.5" /> Pipeline Management
+      <div className="mb-8 space-y-2">
+        <div className="inline-flex items-center gap-2 text-muted-foreground text-[10px] font-bold uppercase tracking-wider">
+          <Briefcase className="w-3 h-3" /> Pipeline Management
         </div>
-        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-slate-900">
-          Candidate <span className="text-[#1C3FA4]">Applications</span>
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">
+          Candidate Applications
         </h1>
-        <p className="text-slate-500 font-medium text-sm max-w-lg leading-relaxed">
+        <p className="text-muted-foreground text-sm max-w-lg">
           Screen resumes, schedule interviews, and manage hiring decisions from a centralized dashboard.
         </p>
       </div>
 
       {/* STATS GRID */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-        <StatCard label="Total Candidates" value={stats.total} icon={Briefcase} color="blue" />
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <StatCard label="Total Candidates" value={stats.total} icon={Briefcase} color="primary" />
         <StatCard label="Needs Review" value={stats.applied} icon={Clock} color="amber" />
         <StatCard label="Interviewing" value={stats.interview} icon={Calendar} color="purple" />
         <StatCard label="Selected" value={stats.selected} icon={CheckCircle2} color="emerald" />
       </div>
 
       {/* TOOLBAR */}
-      <div className="sticky top-4 z-20 bg-white/80 backdrop-blur-md border border-slate-100 p-2 rounded-[2rem] shadow-xl shadow-blue-900/5 mb-8 flex flex-col md:flex-row gap-2">
+      <div className="sticky top-4 z-20 bg-card/80 backdrop-blur-md border border-border p-2 rounded-lg shadow-sm mb-6 flex flex-col md:flex-row gap-2">
         <div className="relative flex-1 group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-[#1C3FA4] transition-colors" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
           <Input 
             placeholder="Search by candidate name or job title..." 
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="h-12 pl-11 rounded-[1.5rem] border-slate-200 bg-white/50 text-slate-900 font-medium placeholder:text-slate-400 focus:bg-white focus:border-[#1C3FA4] focus:ring-4 focus:ring-blue-50 transition-all shadow-none"
+            className="h-10 pl-9 border-none bg-transparent shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
           />
         </div>
-        <div className="flex gap-1 overflow-x-auto pb-1 md:pb-0 no-scrollbar items-center px-1">
+        <div className="flex gap-1 overflow-x-auto items-center px-1 border-l border-border pl-3">
           {['all', 'applied', 'interviewing', 'selected', 'rejected'].map((f) => (
             <button
               key={f}
               onClick={() => setStatusFilter(f)}
-              className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all whitespace-nowrap flex-shrink-0 ${
+              className={`px-4 py-2 rounded-md text-xs font-semibold capitalize transition-all whitespace-nowrap flex-shrink-0 ${
                 statusFilter === f 
-                  ? "bg-[#1C3FA4] text-white shadow-md shadow-blue-900/10" 
-                  : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+                  ? "bg-primary text-primary-foreground" 
+                  : "text-muted-foreground hover:bg-secondary hover:text-foreground"
               }`}
             >
               {f === 'applied' ? 'Pending' : f}
@@ -142,40 +142,40 @@ export default function ApplicationsPage() {
       {/* APPLICATIONS LIST */}
       {loading ? (
         <div className="h-64 flex flex-col items-center justify-center">
-          <Loader2 className="w-10 h-10 text-[#1C3FA4] animate-spin mb-4" />
-          <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">Syncing Data...</p>
+          <Loader2 className="w-8 h-8 text-muted-foreground animate-spin mb-4" />
+          <p className="text-muted-foreground text-xs font-semibold uppercase tracking-widest">Syncing Data...</p>
         </div>
       ) : filteredApps.length > 0 ? (
-        <div className="grid grid-cols-1 gap-5">
+        <div className="grid grid-cols-1 gap-4">
           {filteredApps.map((app) => (
             <div 
               key={app.id} 
-              className="group bg-white border border-slate-100 rounded-[2.5rem] p-6 hover:border-[#1C3FA4]/30 hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300 relative overflow-hidden"
+              className="group bg-card border border-border rounded-lg p-5 hover:border-primary/50 hover:shadow-sm transition-all duration-300 relative overflow-hidden"
             >
               {/* Status Indicator Stripe */}
-              <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${
+              <div className={`absolute left-0 top-0 bottom-0 w-1 ${
                 app.status === 'selected' ? 'bg-emerald-500' : 
                 app.status === 'interviewing' ? 'bg-purple-500' :
-                app.status === 'rejected' ? 'bg-slate-200' : 'bg-amber-400'
+                app.status === 'rejected' ? 'bg-muted-foreground' : 'bg-amber-400'
               }`} />
 
-              <div className="flex flex-col lg:flex-row gap-6 lg:items-center pl-3">
+              <div className="flex flex-col md:flex-row gap-6 md:items-center pl-4">
                 
                 {/* 1. Candidate Identity */}
-                <div className="flex items-center gap-5 lg:w-[28%] shrink-0">
-                  <Avatar className="h-16 w-16 rounded-2xl border-4 border-slate-50 shadow-sm">
+                <div className="flex items-center gap-4 flex-1 min-w-0">
+                  <Avatar className="h-12 w-12 rounded bg-secondary border border-border">
                     <AvatarImage src={app.candidates?.avatar_url} className="object-cover" />
-                    <AvatarFallback className="bg-[#1C3FA4] text-white font-bold text-lg rounded-2xl">
+                    <AvatarFallback className="bg-secondary text-foreground font-bold text-sm rounded">
                       {app.candidates?.full_name?.[0]?.toUpperCase() || "C"}
                     </AvatarFallback>
                   </Avatar>
                   <div className="min-w-0">
-                    <h3 className="font-bold text-slate-900 text-lg truncate">
+                    <h3 className="font-bold text-foreground text-base truncate">
                       {app.candidates?.full_name || "Unknown Candidate"}
                     </h3>
-                    <div className="flex items-center gap-1.5 mt-1">
-                      <Clock className="w-3 h-3 text-slate-400" />
-                      <p className="text-xs font-medium text-slate-500">
+                    <div className="flex items-center gap-1.5 mt-0.5">
+                      <Clock className="w-3 h-3 text-muted-foreground" />
+                      <p className="text-xs font-medium text-muted-foreground">
                         {new Date(app.applied_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                       </p>
                     </div>
@@ -183,31 +183,29 @@ export default function ApplicationsPage() {
                 </div>
 
                 {/* 2. Job & Contact Info */}
-                <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8">
+                <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6">
                   {/* Job */}
-                  <div className="space-y-1.5">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Applying For</p>
-                    <div className="flex items-center gap-2 text-sm font-semibold text-slate-800">
-                      <div className="p-1.5 bg-blue-50 rounded-lg text-[#1C3FA4]">
-                        <Briefcase className="w-3.5 h-3.5" />
-                      </div>
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Applying For</p>
+                    <div className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
+                      <Briefcase className="w-3 h-3 text-muted-foreground" />
                       <span className="truncate">{app.jobs?.title || "Unknown Role"}</span>
                     </div>
-                    <div className="flex items-center gap-1.5 text-xs font-medium text-slate-500 pl-1">
-                      <MapPin className="w-3 h-3 text-slate-400" /> {app.jobs?.location || "Remote"}
+                    <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                      <MapPin className="w-3 h-3" /> {app.jobs?.location || "Remote"}
                     </div>
                   </div>
 
                   {/* Contact */}
-                  <div className="space-y-1.5">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Contact</p>
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Contact</p>
                     <div className="flex flex-col gap-1.5">
-                      <a href={`mailto:${app.candidates?.email}`} className="flex items-center gap-2 text-xs font-medium text-slate-600 hover:text-[#1C3FA4] transition-colors w-fit">
-                        <Mail className="w-3.5 h-3.5 text-slate-400" /> {app.candidates?.email}
+                      <a href={`mailto:${app.candidates?.email}`} className="flex items-center gap-2 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors w-fit">
+                        <Mail className="w-3 h-3" /> {app.candidates?.email}
                       </a>
                       {app.candidates?.phone && (
-                        <a href={`tel:${app.candidates?.phone}`} className="flex items-center gap-2 text-xs font-medium text-slate-600 hover:text-[#1C3FA4] transition-colors w-fit">
-                          <Phone className="w-3.5 h-3.5 text-slate-400" /> {app.candidates?.phone}
+                        <a href={`tel:${app.candidates?.phone}`} className="flex items-center gap-2 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors w-fit">
+                          <Phone className="w-3 h-3" /> {app.candidates?.phone}
                         </a>
                       )}
                     </div>
@@ -215,7 +213,7 @@ export default function ApplicationsPage() {
                 </div>
 
                 {/* 3. Actions & Resume */}
-                <div className="flex flex-row lg:flex-col xl:flex-row items-center justify-between lg:justify-end gap-4 border-t lg:border-t-0 lg:border-l border-slate-50 pt-4 lg:pt-0 lg:pl-6 w-full lg:w-auto">
+                <div className="flex items-center justify-between md:justify-end gap-3 shrink-0 w-full md:w-auto mt-4 md:mt-0">
                   
                   {/* Resume Button */}
                   {app.candidates?.resume_url ? (
@@ -223,46 +221,46 @@ export default function ApplicationsPage() {
                       href={app.candidates.resume_url} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="flex-1 lg:flex-none inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-50 text-slate-700 hover:bg-[#1C3FA4] hover:text-white transition-all text-xs font-bold shadow-sm hover:shadow-md active:scale-95 group/btn"
+                      className="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-md bg-secondary text-foreground hover:bg-primary hover:text-primary-foreground transition-all text-xs font-semibold shadow-sm"
                     >
-                      <FileText className="w-3.5 h-3.5" />
+                      <FileText className="w-3 h-3" />
                       <span>Resume</span>
-                      <Download className="w-3 h-3 opacity-50 group-hover/btn:opacity-100" />
+                      <Download className="w-3 h-3 opacity-50" />
                     </a>
                   ) : (
-                    <div className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-50 text-slate-400 text-xs font-bold border border-slate-100 cursor-not-allowed">
-                      <FileText className="w-3.5 h-3.5" /> No PDF
+                    <div className="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-md bg-secondary opacity-50 text-muted-foreground text-xs font-semibold cursor-not-allowed">
+                      <FileText className="w-3 h-3" /> No PDF
                     </div>
                   )}
 
                   {/* Status Dropdown */}
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
                     <StatusBadge status={app.status} />
                     
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-slate-100 text-slate-400 hover:text-[#1C3FA4] transition-all">
-                          <MoreHorizontal className="w-5 h-5" />
+                        <Button variant="ghost" size="icon" className="h-8 w-8 rounded hover:bg-secondary text-muted-foreground hover:text-foreground transition-all">
+                          <MoreHorizontal className="w-4 h-4" />
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-56 rounded-xl border-slate-100 shadow-xl p-2 bg-white">
-                        <DropdownMenuLabel className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-2 py-1.5">
+                      <DropdownMenuContent align="end" className="w-48 rounded-lg border-border p-1 bg-popover">
+                        <DropdownMenuLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground px-2 py-1.5">
                           Change Status
                         </DropdownMenuLabel>
-                        <DropdownMenuSeparator className="bg-slate-50 mb-1" />
+                        <DropdownMenuSeparator className="bg-border mb-1" />
                         
                         <div className="space-y-1">
-                          <DropdownMenuItem onClick={() => handleStatusChange(app.id, 'interviewing')} className="rounded-lg py-2.5 px-3 text-purple-600 font-medium hover:bg-purple-50 cursor-pointer gap-3">
-                            <div className="w-6 h-6 rounded-md bg-purple-100 flex items-center justify-center"><Calendar className="w-3.5 h-3.5" /></div> Interviewing
+                          <DropdownMenuItem onClick={() => handleStatusChange(app.id, 'interviewing')} className="rounded-md py-2 px-2 text-sm font-medium text-purple-500 cursor-pointer gap-2 focus:bg-purple-500/10 focus:text-purple-500">
+                            <Calendar className="w-4 h-4" /> Interviewing
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleStatusChange(app.id, 'selected')} className="rounded-lg py-2.5 px-3 text-emerald-600 font-medium hover:bg-emerald-50 cursor-pointer gap-3">
-                            <div className="w-6 h-6 rounded-md bg-emerald-100 flex items-center justify-center"><CheckCircle2 className="w-3.5 h-3.5" /></div> Selected
+                          <DropdownMenuItem onClick={() => handleStatusChange(app.id, 'selected')} className="rounded-md py-2 px-2 text-sm font-medium text-emerald-500 cursor-pointer gap-2 focus:bg-emerald-500/10 focus:text-emerald-500">
+                            <CheckCircle2 className="w-4 h-4" /> Selected
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleStatusChange(app.id, 'rejected')} className="rounded-lg py-2.5 px-3 text-rose-600 font-medium hover:bg-rose-50 cursor-pointer gap-3">
-                            <div className="w-6 h-6 rounded-md bg-rose-100 flex items-center justify-center"><XCircle className="w-3.5 h-3.5" /></div> Rejected
+                          <DropdownMenuItem onClick={() => handleStatusChange(app.id, 'rejected')} className="rounded-md py-2 px-2 text-sm font-medium text-muted-foreground cursor-pointer gap-2 focus:bg-secondary focus:text-muted-foreground">
+                            <XCircle className="w-4 h-4" /> Rejected
                           </DropdownMenuItem>
-                          <DropdownMenuSeparator className="bg-slate-50 my-1" />
-                          <DropdownMenuItem onClick={() => handleStatusChange(app.id, 'applied')} className="rounded-lg py-2 px-3 text-slate-500 font-medium hover:bg-slate-50 cursor-pointer text-xs justify-center">
+                          <DropdownMenuSeparator className="bg-border my-1" />
+                          <DropdownMenuItem onClick={() => handleStatusChange(app.id, 'applied')} className="rounded-md py-2 px-2 text-sm font-medium text-muted-foreground cursor-pointer gap-2 focus:bg-secondary justify-center">
                             Reset to Pending
                           </DropdownMenuItem>
                         </div>
@@ -276,21 +274,22 @@ export default function ApplicationsPage() {
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center py-32 bg-white border border-slate-100 rounded-[2.5rem] text-center shadow-sm">
-          <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-6 animate-in zoom-in duration-500">
-            <User className="w-10 h-10 text-slate-300" />
+        <div className="flex flex-col items-center justify-center py-20 bg-card border border-border rounded-lg text-center shadow-sm">
+          <div className="w-12 h-12 bg-secondary rounded flex items-center justify-center mb-4">
+            <User className="w-6 h-6 text-muted-foreground" />
           </div>
-          <h3 className="text-xl font-bold text-slate-900">No applications found</h3>
-          <p className="text-slate-500 max-w-sm mx-auto mt-2 text-sm font-medium leading-relaxed">
+          <h3 className="text-lg font-bold text-foreground">No applications found</h3>
+          <p className="text-muted-foreground max-w-sm mx-auto mt-1 text-sm font-medium">
             {search || statusFilter !== 'all' 
               ? "We couldn't find any candidates matching your filters." 
               : "Once candidates apply, their profiles will appear here."}
           </p>
           {(search || statusFilter !== 'all') && (
             <Button 
-              variant="outline" 
+              variant="outline"
+              size="sm"
               onClick={() => { setSearch(""); setStatusFilter("all"); }}
-              className="mt-6 rounded-xl border-slate-200 text-slate-600 hover:text-[#1C3FA4] hover:border-blue-100 hover:bg-blue-50"
+              className="mt-4"
             >
               Clear Filters
             </Button>
@@ -305,10 +304,10 @@ export default function ApplicationsPage() {
 
 function StatusBadge({ status }: { status: string }) {
   const styles: any = {
-    applied: "bg-amber-50 text-amber-700 border-amber-100",
-    interviewing: "bg-purple-50 text-purple-700 border-purple-100",
-    selected: "bg-emerald-50 text-emerald-700 border-emerald-100",
-    rejected: "bg-slate-50 text-slate-500 border-slate-100"
+    applied: "bg-amber-500/10 text-amber-500 border-amber-500/20",
+    interviewing: "bg-purple-500/10 text-purple-500 border-purple-500/20",
+    selected: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
+    rejected: "bg-secondary text-muted-foreground border-border"
   }
 
   const labels: any = {
@@ -319,8 +318,8 @@ function StatusBadge({ status }: { status: string }) {
   }
 
   return (
-    <div className={`hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl border text-[10px] font-bold uppercase tracking-wider min-w-[110px] justify-center ${styles[status] || styles.applied}`}>
-      <span className={`w-1.5 h-1.5 rounded-full ${status === 'rejected' ? 'bg-slate-400' : 'bg-current animate-pulse'}`} />
+    <div className={`hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded border text-[10px] font-bold uppercase tracking-wider justify-center ${styles[status] || styles.applied}`}>
+      <span className={`w-1.5 h-1.5 rounded-full ${status === 'rejected' ? 'bg-muted-foreground' : 'bg-current animate-pulse'}`} />
       {labels[status] || status}
     </div>
   )
@@ -328,20 +327,20 @@ function StatusBadge({ status }: { status: string }) {
 
 function StatCard({ label, value, icon: Icon, color }: any) {
   const colors: any = {
-    blue: "text-blue-600 bg-blue-50 border-blue-100",
-    amber: "text-amber-600 bg-amber-50 border-amber-100",
-    purple: "text-purple-600 bg-purple-50 border-purple-100",
-    emerald: "text-emerald-600 bg-emerald-50 border-emerald-100"
+    primary: "text-primary bg-primary/10 border-primary/20",
+    amber: "text-amber-500 bg-amber-500/10 border-amber-500/20",
+    purple: "text-purple-500 bg-purple-500/10 border-purple-500/20",
+    emerald: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20"
   }
 
   return (
-    <div className="bg-white border border-slate-100 rounded-[2rem] p-5 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow duration-300">
-      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border ${colors[color]}`}>
-        <Icon className="w-5 h-5" />
+    <div className="bg-card border border-border rounded-lg p-5 shadow-sm flex flex-col gap-2">
+      <div className={`w-8 h-8 rounded flex items-center justify-center border ${colors[color]}`}>
+        <Icon className="w-4 h-4" />
       </div>
       <div>
-        <p className="text-2xl font-bold text-slate-900 leading-none mb-1">{value}</p>
-        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{label}</p>
+        <p className="text-2xl font-bold text-foreground leading-none mb-1">{value}</p>
+        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">{label}</p>
       </div>
     </div>
   )

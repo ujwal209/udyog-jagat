@@ -5,7 +5,7 @@ import Link from "next/link"
 import { 
   Search, MoreHorizontal, 
   MapPin, Clock, Users, Briefcase, 
-  Loader2, Plus, Trash2, Power, Eye,
+  Loader2, Plus, Trash2, Power,
   Building2, Pencil
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -97,49 +97,49 @@ export default function MyJobsPage() {
   })
 
   return (
-    <div className="max-w-7xl mx-auto py-8 md:py-12 px-4 md:px-6 font-sans text-slate-900 animate-in fade-in duration-700">
+    <div className="max-w-7xl mx-auto py-8 md:py-12 px-4 md:px-6 font-sans text-foreground animate-in fade-in duration-300">
       
       {/* HEADER SECTION */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-        <div className="space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-[#1C3FA4] border border-blue-100 text-[10px] font-bold uppercase tracking-wider">
-            <Briefcase className="w-3.5 h-3.5" /> Dashboard Overview
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+        <div className="space-y-2">
+          <div className="inline-flex items-center gap-2 text-muted-foreground text-[10px] font-bold uppercase tracking-wider">
+            <Briefcase className="w-3 h-3" /> Dashboard Overview
           </div>
-          <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-slate-900">
-            My <span className="text-[#1C3FA4]">Listings</span>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+            My Listings
           </h1>
-          <p className="text-slate-500 font-medium text-sm max-w-lg leading-relaxed">
+          <p className="text-muted-foreground text-sm max-w-lg">
             Monitor active job posts, analyze applicant reach, and manage hiring cycles.
           </p>
         </div>
         <Link href="/dashboard/poster/post-job">
-          <Button className="h-12 px-6 bg-[#1C3FA4] hover:bg-[#152d75] text-white rounded-2xl font-bold uppercase tracking-widest text-[11px] shadow-lg shadow-blue-900/10 transition-all active:scale-95 flex items-center gap-2 w-full md:w-auto justify-center">
+          <Button className="h-10 px-4 text-sm gap-2">
             <Plus className="w-4 h-4" /> Create New
           </Button>
         </Link>
       </div>
 
       {/* SEARCH & FILTER TOOLBAR */}
-      <div className="sticky top-4 z-20 bg-white/80 backdrop-blur-md border border-slate-100 p-2 rounded-[2rem] shadow-xl shadow-blue-900/5 mb-8 flex flex-col md:flex-row gap-2">
+      <div className="sticky top-4 z-20 bg-card/80 backdrop-blur-md border border-border p-2 rounded-lg shadow-sm mb-6 flex flex-col md:flex-row gap-2">
         <div className="relative flex-1 group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-[#1C3FA4] transition-colors" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
           <Input 
             placeholder="Search by job title, location, or keyword..." 
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="h-12 pl-11 rounded-[1.5rem] border-slate-200 bg-white/50 text-slate-900 font-medium placeholder:text-slate-400 focus:bg-white focus:border-[#1C3FA4] focus:ring-4 focus:ring-blue-50 transition-all shadow-none"
+            className="h-10 pl-9 border-none bg-transparent shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
           />
         </div>
         
-        <div className="flex gap-1 overflow-x-auto pb-1 md:pb-0 no-scrollbar items-center px-1">
+        <div className="flex gap-1 overflow-x-auto items-center px-1 border-l border-border pl-3">
           {['all', 'active', 'closed'].map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-6 py-2.5 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all whitespace-nowrap flex-shrink-0 ${
+              className={`px-4 py-2 rounded-md text-xs font-semibold capitalize transition-all whitespace-nowrap flex-shrink-0 ${
                 filter === f 
-                  ? "bg-[#1C3FA4] text-white shadow-md shadow-blue-900/10" 
-                  : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+                  ? "bg-primary text-primary-foreground" 
+                  : "text-muted-foreground hover:bg-secondary hover:text-foreground"
               }`}
             >
               {f}
@@ -151,113 +151,109 @@ export default function MyJobsPage() {
       {/* JOBS GRID */}
       {loading ? (
         <div className="h-64 flex flex-col items-center justify-center">
-          <Loader2 className="w-10 h-10 text-[#1C3FA4] animate-spin mb-4" />
-          <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">Syncing Listings...</p>
+          <Loader2 className="w-8 h-8 text-muted-foreground animate-spin mb-4" />
+          <p className="text-muted-foreground text-xs font-semibold uppercase tracking-widest">Syncing Listings...</p>
         </div>
       ) : filteredJobs.length > 0 ? (
-        <div className="grid grid-cols-1 gap-5">
+        <div className="grid grid-cols-1 gap-4">
           {filteredJobs.map((job) => (
             <div 
               key={job.id} 
-              className={`group relative bg-white border rounded-[2.5rem] p-6 transition-all duration-300 ${
+              className={`group relative bg-card border rounded-lg p-5 transition-all duration-300 ${
                 job.status === 'active' 
-                  ? 'border-slate-100 hover:border-[#1C3FA4]/30 hover:shadow-xl hover:shadow-blue-900/5' 
-                  : 'border-slate-100 bg-slate-50/50 opacity-75 grayscale-[0.5] hover:opacity-100 hover:grayscale-0'
+                  ? 'border-border hover:border-primary/50 shadow-sm' 
+                  : 'border-border opacity-75 grayscale-[0.5] hover:opacity-100 hover:grayscale-0'
               }`}
             >
-              <div className="flex flex-col lg:flex-row gap-6 lg:items-center">
+              <div className="flex flex-col md:flex-row gap-6 md:items-center justify-between">
                 
                 {/* 1. Identity & Status */}
-                <div className="flex items-start gap-5 lg:w-[40%] shrink-0">
-                  <Avatar className="h-16 w-16 rounded-2xl border-4 border-slate-50 bg-white shadow-sm shrink-0">
+                <div className="flex items-start gap-4 flex-1 min-w-0">
+                  <Avatar className="h-12 w-12 rounded bg-secondary border border-border shrink-0">
                     <AvatarImage src={job.company_logo_url} className="object-cover" />
-                    <AvatarFallback className="bg-blue-50 text-[#1C3FA4] rounded-2xl">
-                      <Building2 className="w-6 h-6" />
+                    <AvatarFallback className="bg-secondary text-muted-foreground rounded text-xs font-bold">
+                      <Building2 className="w-5 h-5" />
                     </AvatarFallback>
                   </Avatar>
 
-                  <div className="space-y-2 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
+                  <div className="space-y-1 min-w-0">
+                    <div className="flex items-center gap-2">
                       <StatusBadge status={job.status} />
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                      <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">
                         {new Date(job.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                       </span>
                     </div>
-                    <h3 className="text-xl font-bold text-slate-900 leading-tight group-hover:text-[#1C3FA4] transition-colors truncate pr-4">
+                    <h3 className="text-base font-bold text-foreground leading-tight group-hover:text-primary transition-colors truncate pr-4">
                       {job.title}
                     </h3>
                   </div>
                 </div>
 
                 {/* 2. Metadata Tags */}
-                <div className="flex-1 flex flex-wrap gap-2 lg:gap-3">
-                  <div className="inline-flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100 text-xs font-medium text-slate-600">
-                    <MapPin className="w-3.5 h-3.5 text-[#1C3FA4]" /> 
+                <div className="flex-1 flex flex-wrap gap-2">
+                  <div className="inline-flex items-center gap-1.5 bg-secondary px-2 py-1 rounded border border-border text-xs font-medium text-muted-foreground">
+                    <MapPin className="w-3 h-3" /> 
                     <span className="truncate max-w-[120px]">{job.location}</span>
                   </div>
-                  <div className="inline-flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100 text-xs font-medium text-slate-600">
-                    <Briefcase className="w-3.5 h-3.5 text-[#1C3FA4]" /> {job.type}
+                  <div className="inline-flex items-center gap-1.5 bg-secondary px-2 py-1 rounded border border-border text-xs font-medium text-muted-foreground">
+                    <Briefcase className="w-3 h-3" /> {job.type}
                   </div>
-                  <div className="inline-flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100 text-xs font-medium text-slate-600">
-                    <Clock className="w-3.5 h-3.5 text-[#1C3FA4]" /> {job.department || "General"}
+                  <div className="inline-flex items-center gap-1.5 bg-secondary px-2 py-1 rounded border border-border text-xs font-medium text-muted-foreground">
+                    <Clock className="w-3 h-3" /> {job.department || "General"}
                   </div>
                 </div>
 
                 {/* 3. Stats & Menu */}
-                <div className="flex items-center justify-between lg:justify-end gap-6 border-t lg:border-t-0 lg:border-l border-slate-100 pt-4 lg:pt-0 lg:pl-8 w-full lg:w-auto">
+                <div className="flex items-center justify-between md:justify-end gap-6 shrink-0 w-full md:w-auto mt-4 md:mt-0">
                   
                   {/* Applicant Counter */}
-                  <div className="flex items-center gap-3 group/stats cursor-default">
-                    <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-[#1C3FA4] group-hover/stats:scale-110 transition-transform">
-                      <Users className="w-5 h-5" />
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded bg-secondary flex items-center justify-center text-muted-foreground">
+                      <Users className="w-4 h-4" />
                     </div>
                     <div>
-                      <p className="text-lg font-bold text-slate-900 leading-none">{job.applicant_count}</p>
-                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Candidates</p>
+                      <p className="text-sm font-bold text-foreground leading-none">{job.applicant_count}</p>
+                      <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Candidates</p>
                     </div>
                   </div>
 
-                  <div className="h-8 w-px bg-slate-100 hidden lg:block" />
+                  <div className="h-6 w-px bg-border hidden md:block" />
 
                   {/* Actions Dropdown */}
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-slate-100 text-slate-400 hover:text-[#1C3FA4] transition-all">
-                        <MoreHorizontal className="w-5 h-5" />
+                      <Button variant="ghost" size="icon" className="h-8 w-8 rounded hover:bg-secondary text-muted-foreground hover:text-foreground">
+                        <MoreHorizontal className="w-4 h-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-56 rounded-xl border-slate-100 shadow-xl p-2 bg-white">
-                      <DropdownMenuLabel className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-2 py-1.5">
+                    <DropdownMenuContent align="end" className="w-48 rounded-lg border-border p-1 bg-popover">
+                      <DropdownMenuLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground px-2 py-1.5">
                         Manage Listing
                       </DropdownMenuLabel>
                       
                       {/* --- EDIT OPTION --- */}
                       <Link href={`/dashboard/poster/edit-job/${job.id}`} className="w-full cursor-pointer">
-                        <DropdownMenuItem className="rounded-lg py-2.5 px-3 font-medium text-slate-600 hover:text-[#1C3FA4] hover:bg-blue-50 cursor-pointer gap-3">
-                          <div className="w-6 h-6 rounded-md bg-blue-50 flex items-center justify-center">
-                            <Pencil className="w-3.5 h-3.5 text-[#1C3FA4]" />
-                          </div> 
+                        <DropdownMenuItem className="rounded-md py-2 px-2 text-sm font-medium text-foreground cursor-pointer gap-2 focus:bg-secondary">
+                          <Pencil className="w-4 h-4 text-muted-foreground" />
                           Edit Job
                         </DropdownMenuItem>
                       </Link>
 
                       <DropdownMenuItem 
                         onClick={() => handleToggleStatus(job.id, job.status)}
-                        className="rounded-lg py-2.5 px-3 font-medium text-slate-600 hover:text-[#1C3FA4] hover:bg-blue-50 cursor-pointer gap-3"
+                        className="rounded-md py-2 px-2 text-sm font-medium text-foreground cursor-pointer gap-2 focus:bg-secondary"
                       >
-                        <div className={`w-6 h-6 rounded-md flex items-center justify-center ${job.status === 'active' ? 'bg-amber-50 text-amber-600' : 'bg-emerald-50 text-emerald-600'}`}>
-                          <Power className="w-3.5 h-3.5" />
-                        </div> 
+                        <Power className={`w-4 h-4 ${job.status === 'active' ? 'text-amber-500' : 'text-emerald-500'}`} />
                         {job.status === 'active' ? 'Close Listing' : 'Publish Listing'}
                       </DropdownMenuItem>
                       
-                      <DropdownMenuSeparator className="bg-slate-50 my-1" />
+                      <DropdownMenuSeparator className="bg-border my-1" />
                       
                       <DropdownMenuItem 
                         onClick={() => handleDelete(job.id)}
-                        className="rounded-lg py-2.5 px-3 font-medium text-rose-600 hover:bg-rose-50 cursor-pointer gap-3"
+                        className="rounded-md py-2 px-2 text-sm font-medium text-destructive cursor-pointer gap-2 focus:bg-destructive/10 focus:text-destructive"
                       >
-                        <div className="w-6 h-6 rounded-md bg-rose-50 flex items-center justify-center"><Trash2 className="w-3.5 h-3.5" /></div> Delete
+                        <Trash2 className="w-4 h-4" /> Delete
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -268,20 +264,22 @@ export default function MyJobsPage() {
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center py-24 bg-white border border-slate-100 rounded-[2.5rem] text-center shadow-sm">
-          <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6 animate-in zoom-in duration-500">
-            <Briefcase className="w-10 h-10 text-slate-300" />
+        <div className="flex flex-col items-center justify-center py-20 bg-card border border-border rounded-lg text-center shadow-sm">
+          <div className="w-12 h-12 bg-secondary rounded flex items-center justify-center mb-4">
+            <Briefcase className="w-6 h-6 text-muted-foreground" />
           </div>
-          <h3 className="text-xl font-bold text-slate-900">No active listings</h3>
-          <p className="text-slate-500 max-w-xs mx-auto mt-2 text-sm font-medium leading-relaxed">
+          <h3 className="text-lg font-bold text-foreground">No active listings</h3>
+          <p className="text-muted-foreground text-sm font-medium mt-1">
             {search || filter !== 'all' 
               ? "Try adjusting your search filters to find what you're looking for." 
               : "Start by posting a new job opportunity to attract talent."}
           </p>
           {(search || filter !== 'all') && (
             <Button 
+              variant="outline"
+              size="sm"
               onClick={() => { setSearch(""); setFilter("all"); }}
-              className="mt-6 bg-white rounded-xl border border-slate-200 text-slate-600 hover:text-[#1C3FA4] hover:border-blue-100 hover:shadow-sm transition-all"
+              className="mt-4"
             >
               Clear Filters
             </Button>
@@ -295,12 +293,12 @@ export default function MyJobsPage() {
 function StatusBadge({ status }: { status: string }) {
   const isActive = status === 'active'
   return (
-    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-lg border text-[10px] font-bold uppercase tracking-wider ${
+    <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded border text-[10px] font-bold uppercase tracking-wider ${
       isActive 
-        ? "bg-emerald-50 text-emerald-700 border-emerald-100" 
-        : "bg-slate-100 text-slate-500 border-slate-200"
+        ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20" 
+        : "bg-secondary text-muted-foreground border-border"
     }`}>
-      <span className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'}`} />
+      <span className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-emerald-500' : 'bg-muted-foreground'}`} />
       {isActive ? "Live" : "Closed"}
     </div>
   )
