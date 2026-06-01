@@ -31,7 +31,7 @@ export default async function PosterLayout({
   return (
     <div className="flex min-h-screen bg-background font-sans text-foreground">
       <PosterSidebar />
-      <main className="flex-1 w-full pb-20 lg:pb-0">
+      <main className="flex-1 w-full pt-16 pb-20 lg:pt-0 lg:pb-0">
         {children}
       </main>
     </div>

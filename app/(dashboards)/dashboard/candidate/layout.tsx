@@ -52,7 +52,7 @@ export default async function CandidateLayout({
         <CandidateSidebar />
         
         {/* Main Content Area */}
-        <main className="flex-1 w-full min-w-0 bg-background relative pb-20 lg:pb-0">
+        <main className="flex-1 w-full min-w-0 bg-background relative pt-16 pb-20 lg:pt-0 lg:pb-0">
           {children}
         </main>
       </div>

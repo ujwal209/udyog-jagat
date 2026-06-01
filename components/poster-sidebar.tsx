@@ -54,6 +54,18 @@ export function PosterSidebar() {
           )
         })}
       </div>
+
+      {/* --- MOBILE TOP HEADER (Visible < lg) --- */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-background/95 backdrop-blur-md border-b border-border z-40 flex items-center justify-between px-4">
+        <div className="flex items-center gap-2">
+          <span className="font-black tracking-tight text-lg leading-none">UDYOG <span className="text-primary">JAGAT</span></span>
+        </div>
+        <form action={signOutAction}>
+           <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground hover:text-red-500 hover:bg-red-50">
+             <LogOut className="w-5 h-5" />
+           </Button>
+        </form>
+      </div>
     </>
   )
 }
